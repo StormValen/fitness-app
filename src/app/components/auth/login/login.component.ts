@@ -21,15 +21,15 @@ export class LoginComponent implements OnInit {
                 '', 
                 { validators: [
                     Validators.email, 
-                    Validators.required] 
-                }
+                    Validators.required
+                ]}
             ),
             password: new FormControl(
                 '', 
                 { validators: [
                     Validators.minLength(8), 
-                    Validators.required] 
-                }
+                    Validators.required
+                ]}
             )
         });
     }

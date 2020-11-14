@@ -1,82 +1,73 @@
 <section>
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)" fxLayout="column" fxLayoutAlign="center center">
-        <mat-card fxLayout="column" fxLayoutAlign="center center">
-            <h1>Signup</h1>
-            <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input 
-                    matInput 
-                    type="email" 
-                    ngModel 
-                    #emailControl="ngModel"
-                    name="email"
-                    placeholder="example@mail.com" 
-                    email
-                    required>
-                <mat-error *ngIf="emailControl.value?.length === 0">
-                    <span>Field must not be empty</span>
-                    <mat-icon>announcement</mat-icon>
-                </mat-error>
-                <mat-error *ngIf="emailControl.value?.length != 0 && !emailControl.valid">
-                    <span>Email is not valid</span>
-                    <mat-icon>announcement</mat-icon>
-                </mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field hintLabel="Should be at least 6 characters long">
-                <mat-label>Password</mat-label>
-                <input 
-                    matInput
-                    type="password" 
-                    ngModel 
-                    #passwordControl="ngModel"
-                    name="password"
-                    minlength="6"
-                    required>
-                <mat-hint align="end">
-                    <span>{{ passwordControl.value?.length }} / 6</span>
-                </mat-hint>
-                <mat-error *ngIf="passwordControl.value?.length < 6">
-                    <span>Password must be 6 characters long</span>
-                    <mat-icon>announcement</mat-icon>
-                </mat-error>
-            </mat-form-field>
-            <br>
-            <mat-form-field>
-                <mat-label>Birthdate</mat-label>
-                <input
-                    matInput
-                    type="text"
-                    ngModel
-                    #dateControl="ngModel"
-                    name="date"
-                    [matDatepicker]="datepicker"
-                    [max]="maxDate"
-                    required>
-                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-                <mat-datepicker #datepicker></mat-datepicker>
-                <mat-error *ngIf="dateControl.value?.length === 0">
-                    <span>Field must not be empty</span>
-                    <mat-icon>announcement</mat-icon>
-                </mat-error>
-            </mat-form-field>
-            <br>
-            <mat-checkbox 
-                ngModel 
-                #agreeControl="ngModel" 
-                name="agree"
-                color="primary"
-                required>
-                <span>Agree </span> 
-                <a href="https://en.wikipedia.org/wiki/Terms_of_service">terms and conditions</a>
-            </mat-checkbox>
-            <br>
-            <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">
-                <span>Signup</span>
-                <mat-icon>login</mat-icon>
-            </button>
-        </mat-card>
-        <a href="http://localhost:4200/login">Already have an account</a>
+    <form 
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxLayoutGap="10px">
+        <h1>Signup</h1>
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input 
+                matInput
+                type="email" 
+                formControlName="email">
+            <mat-error *ngIf="signupForm.controls.email.value?.length === 0">
+                <span>Field must not be empty </span>
+                <mat-icon>announcement</mat-icon>
+            </mat-error>
+            <mat-error *ngIf="signupForm.controls.email.value?.length != 0 
+                        && !signupForm.controls.email.valid">
+                <span>Email is not valid </span>
+                <mat-icon>announcement</mat-icon>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input 
+                matInput
+                type="password"
+                formControlName="password">
+            <mat-hint align="end">
+                <span>{{ signupForm.controls.password.value?.length }} / 8</span>
+            </mat-hint>
+            <mat-error *ngIf="signupForm.controls.password.value?.length < 8">
+                <span>Password must be 6 characters long </span>
+                <mat-icon>announcement</mat-icon>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Birthdate</mat-label>
+            <input 
+                matInput
+                type="text" 
+                formControlName="birthdate" 
+                [matDatepicker]="datepicker" 
+                [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker></mat-datepicker>
+            <mat-error *ngIf="signupForm.controls.birthdate.value?.length === 0">
+                <span>Field must not be empty </span>
+                <mat-icon>announcement</mat-icon>
+            </mat-error>
+        </mat-form-field>
+        <mat-checkbox 
+            formControlName="agreeTerms"
+            color="primary">
+            <span>Agree </span> 
+            <a href="https://en.wikipedia.org/wiki/Terms_of_service">terms and conditions</a>
+        </mat-checkbox>
+        <button 
+            type="submit" 
+            mat-raised-button color="primary" 
+            [disabled]="signupForm.invalid">
+            <span>Signup</span>
+            <mat-icon>login</mat-icon>
+        </button>
+        <div>
+            <span>You already have an account ? </span>
+            <a href="http://localhost:4200/login">Login</a>
+        </div>
     </form>
 </section>
 

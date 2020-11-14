@@ -8,13 +8,15 @@
         <h1>Login</h1>
         <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
-            <input type="email" matInput formControlName="email">
+            <input 
+                matInput 
+                type="email" 
+                formControlName="email">
             <mat-error *ngIf="loginForm.controls.email.value?.length === 0">
                 <span>Field must not be empty </span>
                 <mat-icon>announcement</mat-icon>
             </mat-error>
-            <mat-error 
-                *ngIf="loginForm.controls.email.value?.length != 0 
+            <mat-error *ngIf="loginForm.controls.email.value?.length != 0 
                         && !loginForm.controls.email.valid">
                 <span>Email is not valid</span>
                 <mat-icon>announcement</mat-icon>
@@ -22,11 +24,14 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input type="password" matInput formControlName="password">
+            <input 
+                matInput 
+                type="password" 
+                formControlName="password">
             <mat-hint align="end">
-                <span>{{ loginForm.controls.password.value?.length }} / 6</span>
+                <span>{{ loginForm.controls.password.value?.length }} / 8</span>
             </mat-hint>
-            <mat-error *ngIf="loginForm.controls.password.value?.length < 6">
+            <mat-error *ngIf="loginForm.controls.password.value?.length < 8">
                 <span>Password must be 6 characters long </span>
                 <mat-icon>announcement</mat-icon>
             </mat-error>
@@ -38,7 +43,10 @@
             <span>Login</span>
             <mat-icon>login</mat-icon>
         </button>
-        <a href="http://localhost:4200/signup">Signup</a>
+        <div>
+            <span>You don't have an account ? </span>
+            <a href="http://localhost:4200/signup">Signup</a>
+        </div>
     </form>
 </section>
 
