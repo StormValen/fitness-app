@@ -1,35 +1,70 @@
 <section>
-    <form fxLayout="column" fxLayoutAlign="center center" #f="ngForm" (ngSubmit)="onSubmit(f)">
-        <h1>Signup</h1>
-        <mat-form-field>
-            <mat-label>Email or Username</mat-label>
-            <input 
-                #emailControl="ngModel"
-                ngModel 
-                matInput 
-                type="email" 
-                placeholder="example@mail.com" 
-                name="email"
-                email
-                required>
-            <mat-error *ngIf="emailControl.value?.length === 0">Field must not be empty <mat-icon>announcement</mat-icon></mat-error>
-            <mat-error *ngIf="emailControl.value?.length != 0 && !emailControl.valid">Email is not valid <mat-icon>announcement</mat-icon></mat-error>
-        </mat-form-field>
-        <mat-form-field hintLabel="Should be at least 6 characters long">
-            <mat-label>Password</mat-label>
-            <input 
-                #passwordControl="ngModel"
-                matInput 
-                ngModel 
-                type="password" 
-                name="password"
-                minlength="6"
-                required>
-            <mat-hint align="end">
-                <span>{{ passwordControl.value?.length }} / 6</span>
-            </mat-hint>
-        </mat-form-field>
-        <br>
-        <button type="submit" mat-raised-button color="primary">Submit</button>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)" fxLayout="column" fxLayoutAlign="center center">
+        <mat-card fxLayout="column" fxLayoutAlign="center center">
+            <h1>Signup</h1>
+            <mat-form-field>
+                <mat-label>Email or Username</mat-label>
+                <input 
+                    matInput 
+                    type="email" 
+                    ngModel 
+                    #emailControl="ngModel"
+                    name="email"
+                    placeholder="example@mail.com" 
+                    email
+                    required>
+                <mat-error *ngIf="emailControl.value?.length === 0">
+                    <span>Field must not be empty</span>
+                    <mat-icon>announcement</mat-icon>
+                </mat-error>
+                <mat-error *ngIf="emailControl.value?.length != 0 && !emailControl.valid">
+                    <span>Email is not valid</span>
+                    <mat-icon>announcement</mat-icon>
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field hintLabel="Should be at least 6 characters long">
+                <mat-label>Password</mat-label>
+                <input 
+                    matInput
+                    type="password" 
+                    ngModel 
+                    #passwordControl="ngModel"
+                    name="password"
+                    minlength="6"
+                    required>
+                <mat-hint align="end">
+                    <span>{{ passwordControl.value?.length }} / 6</span>
+                </mat-hint>
+                <mat-error *ngIf="passwordControl.value?.length < 6">
+                    <span>Password must be 6 characters long</span>
+                    <mat-icon>announcement</mat-icon>
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Birthdate</mat-label>
+                <input
+                    matInput
+                    type="text"
+                    ngModel
+                    #dateControl="ngModel"
+                    name="date"
+                    [matDatepicker]="datepicker"
+                    required>
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker></mat-datepicker>
+                <mat-error *ngIf="dateControl.value?.length === 0">
+                    <span>Field must not be empty</span>
+                    <mat-icon>announcement</mat-icon>
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <button type="submit" mat-raised-button color="primary">
+                <span>Submit</span>
+                <mat-icon>login</mat-icon>
+            </button>
+        </mat-card>
     </form>
 </section>
+
