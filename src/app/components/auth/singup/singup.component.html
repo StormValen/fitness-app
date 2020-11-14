@@ -51,6 +51,7 @@
                     #dateControl="ngModel"
                     name="date"
                     [matDatepicker]="datepicker"
+                    [max]="maxDate"
                     required>
                 <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
                 <mat-datepicker #datepicker></mat-datepicker>
@@ -60,7 +61,16 @@
                 </mat-error>
             </mat-form-field>
             <br>
-            <button type="submit" mat-raised-button color="primary">
+            <mat-checkbox 
+                ngModel 
+                #agreeControl="ngModel" 
+                name="agree"
+                color="primary"
+                required>
+                <span>Agree <a href="https://en.wikipedia.org/wiki/Terms_of_service">terms and conditions</a></span>
+            </mat-checkbox>
+            <br>
+            <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid">
                 <span>Submit</span>
                 <mat-icon>login</mat-icon>
             </button>
