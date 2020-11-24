@@ -6,6 +6,8 @@ import {
     Validators 
 } from '@angular/forms';
 
+const MIN_REQUIRED_AGE = 18;
+
 @Component({
     selector: 'app-singup',
     templateUrl: './singup.component.html',
@@ -55,7 +57,7 @@ export class SingupComponent implements OnInit {
 
     private initializeSignupMaxDate(): void {
         this.maxDate = new Date();
-        this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+        this.maxDate.setFullYear(this.maxDate.getFullYear() - MIN_REQUIRED_AGE);
     }
 
     onSubmit(): void {
