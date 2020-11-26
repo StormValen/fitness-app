@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { 
     FormControl, 
-    FormGroup, 
-    NgForm, 
+    FormGroup,
     Validators 
 } from '@angular/forms';
 
