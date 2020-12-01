@@ -3,6 +3,10 @@
     <span>Sidenav Content</span>
   </mat-sidenav>
   <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+      <span>Fitness App</span>
+    </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
