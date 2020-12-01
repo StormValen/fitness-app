@@ -1,13 +1,23 @@
-<mat-sidenav-container class="example-container">
-  <mat-sidenav mode="side" #sidenav role="navigation">
-    <span>Sidenav Content</span>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
-      <span>Fitness App</span>
-    </mat-toolbar>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
+<mat-sidenav-container>
+    <mat-sidenav mode="side" #sidenav role="navigation" opened>
+        <span>Sidenav Content</span>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <button mat-icon-button>
+                <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+            </button>
+            <a routerLink="/">{{ title }}</a>
+            <div fxFlex fxLayout fxLayoutAlign="flex-end">
+                <ul fxLayout fxLayoutGap="10px" class="navigation-item">
+                    <li><a routerLink="/training">Training</a></li>
+                    <li><a routerLink="/login">Login</a></li>
+                    <li><a routerLink="/signup">Sign Up</a></li>
+                </ul>
+            </div>
+        </mat-toolbar>
+        <main>
+            <router-outlet></router-outlet>
+        </main>
+    </mat-sidenav-content>
 </mat-sidenav-container>
-
