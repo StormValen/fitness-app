@@ -1,5 +1,5 @@
 <section>
-    <form 
+    <form
         [formGroup]="signupForm"
         (ngSubmit)="onSubmit()"
         fxLayout="column"
@@ -8,15 +8,15 @@
         <h1>Signup</h1>
         <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
-            <input 
+            <input
                 matInput
-                type="email" 
+                type="email"
                 formControlName="email">
             <mat-error *ngIf="signupForm.controls.email.value?.length === 0">
                 <span>Field must not be empty </span>
                 <mat-icon>announcement</mat-icon>
             </mat-error>
-            <mat-error *ngIf="signupForm.controls.email.value?.length != 0 
+            <mat-error *ngIf="signupForm.controls.email.value?.length != 0
                         && !signupForm.controls.email.valid">
                 <span>Email is not valid </span>
                 <mat-icon>announcement</mat-icon>
@@ -24,7 +24,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input 
+            <input
                 matInput
                 type="password"
                 formControlName="password">
@@ -38,11 +38,11 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Birthdate</mat-label>
-            <input 
+            <input
                 matInput
-                type="text" 
-                formControlName="birthdate" 
-                [matDatepicker]="datepicker" 
+                type="text"
+                formControlName="birthdate"
+                [matDatepicker]="datepicker"
                 [max]="maxDate">
             <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker></mat-datepicker>
@@ -51,22 +51,22 @@
                 <mat-icon>announcement</mat-icon>
             </mat-error>
         </mat-form-field>
-        <mat-checkbox 
+        <mat-checkbox
             formControlName="agreeTerms"
             color="primary">
-            <span>Agree </span> 
+            <span>Agree </span>
             <a href="https://en.wikipedia.org/wiki/Terms_of_service">terms and conditions</a>
         </mat-checkbox>
-        <button 
-            type="submit" 
-            mat-raised-button color="primary" 
+        <button
+            type="submit"
+            mat-raised-button color="primary"
             [disabled]="signupForm.invalid">
             <span>Signup</span>
             <mat-icon>login</mat-icon>
         </button>
         <div>
             <span>You already have an account ? </span>
-            <a href="http://localhost:4200/login">Login</a>
+            <a routerLink="/login">Login</a>
         </div>
     </form>
 </section>

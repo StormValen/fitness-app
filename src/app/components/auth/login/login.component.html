@@ -1,22 +1,22 @@
 <section>
-    <form 
+    <form
         [formGroup]="loginForm"
-        (ngSubmit)="onSubmit()" 
-        fxLayout="column" 
+        (ngSubmit)="onSubmit()"
+        fxLayout="column"
         fxLayoutAlign="center center"
         fxLayoutGap="10px">
         <h1>Login</h1>
         <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
-            <input 
-                matInput 
-                type="email" 
+            <input
+                matInput
+                type="email"
                 formControlName="email">
             <mat-error *ngIf="loginForm.controls.email.value?.length === 0">
                 <span>Field must not be empty </span>
                 <mat-icon>announcement</mat-icon>
             </mat-error>
-            <mat-error *ngIf="loginForm.controls.email.value?.length != 0 
+            <mat-error *ngIf="loginForm.controls.email.value?.length != 0
                         && !loginForm.controls.email.valid">
                 <span>Email is not valid</span>
                 <mat-icon>announcement</mat-icon>
@@ -24,9 +24,9 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input 
-                matInput 
-                type="password" 
+            <input
+                matInput
+                type="password"
                 formControlName="password">
             <mat-hint align="end">
                 <span>{{ loginForm.controls.password.value?.length }} / 8</span>
@@ -36,16 +36,16 @@
                 <mat-icon>announcement</mat-icon>
             </mat-error>
         </mat-form-field>
-        <button 
-            type="submit" 
-            mat-raised-button color="primary" 
+        <button
+            type="submit"
+            mat-raised-button color="primary"
             [disabled]="loginForm.invalid">
             <span>Login</span>
             <mat-icon>login</mat-icon>
         </button>
         <div>
             <span>You don't have an account ? </span>
-            <a href="http://localhost:4200/signup">Signup</a>
+            <a routerLink="/signup">Signup</a>
         </div>
     </form>
 </section>
