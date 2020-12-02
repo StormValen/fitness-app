@@ -1,34 +1,9 @@
 <mat-sidenav-container>
     <mat-sidenav mode="side" #sidenav role="navigation">
-        <mat-nav-list>
-          <a mat-list-item routerLink="/signup" (click)="sidenav.toggle()">
-            <mat-icon class="navigation-icon">face</mat-icon>
-            <span>Sign Up</span>
-          </a>
-          <a mat-list-item routerLink="/login" (click)="sidenav.toggle()">
-            <mat-icon class="navigation-icon">login</mat-icon>
-            <span>Login</span>
-          </a>
-          <a mat-list-item routerLink="/training" (click)="sidenav.toggle()">
-            <mat-icon class="navigation-icon">fitness_center</mat-icon>
-            <span>Trainings</span>
-          </a>
-        </mat-nav-list>
+        <app-sidenav-list (toggleSidenav)="sidenav.toggle()"></app-sidenav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="primary">
-            <button mat-icon-button fxHide.gt-sm>
-                <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
-            </button>
-            <a routerLink="/">{{ title }}</a>
-            <div fxFlex fxLayout fxLayoutAlign="flex-end">
-                <ul fxLayout fxLayoutGap="10px" class="navigation-item">
-                    <li><a routerLink="/training">Training</a></li>
-                    <li><a routerLink="/login">Login</a></li>
-                    <li><a routerLink="/signup">Sign Up</a></li>
-                </ul>
-            </div>
-        </mat-toolbar>
+        <app-header (toggleSidenav)="sidenav.toggle()"></app-header>
         <main>
             <router-outlet></router-outlet>
         </main>
