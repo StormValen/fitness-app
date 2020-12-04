@@ -1,19 +1,15 @@
-<section class="current-training"
-  fxLayout="column"
-  fxLayoutAlign="center center"
-  fxLayoutGap="30px">
+<section class="current-training" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="30px">
 
-  <mat-progress-spinner mode="determinate" [value]="progressValue"></mat-progress-spinner>
+    <mat-progress-spinner mode="determinate" [value]="progressValue"></mat-progress-spinner>
 
-  <h1>{{ progressValue }}%</h1>
-  <span [fxHide]="progressCompleted">You can do it!</span>
-  <span [fxHide]="!progressCompleted"><mat-icon>check</mat-icon></span>
+    <h1>{{ progressValue }}%</h1>
+    <span [fxHide]="progressCompleted">You can do it!</span>
+    <span [fxHide]="!progressCompleted">
+        <mat-icon>check</mat-icon>
+    </span>
 
-  <button
-    mat-raised-button
-    color="accent"
-    (click)="stopTraining()">
-    Stop Training
-  </button>
+    <button mat-raised-button color="accent" (click)="stopTraining()">
+        Stop Training
+    </button>
 
 </section>
