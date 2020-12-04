@@ -17,6 +17,7 @@ import { PastTrainingComponent } from './components/training/past-training/past-
 import { CurrentTrainingComponent } from './components/training/current-training/current-training.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
+import { StopTrainingComponent } from './components/training/current-training/stop-training/stop-training.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { SidenavListComponent } from './components/navigation/sidenav-list/siden
     PastTrainingComponent,
     WelcomeComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    StopTrainingComponent
   ],
   imports: [
     BrowserModule,
