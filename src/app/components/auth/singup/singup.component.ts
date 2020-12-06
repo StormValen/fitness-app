@@ -4,6 +4,7 @@ import {
     FormGroup,
     Validators 
 } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
 
 const MIN_REQUIRED_AGE = 18;
 
@@ -16,11 +17,18 @@ export class SingupComponent implements OnInit {
     signupForm: FormGroup;
     maxDate: Date;
 
-    constructor() { }
+    constructor(private authService: AuthService) { }
 
     ngOnInit(): void {
         this.createSignupForm();
         this.initializeSignupMaxDate();
+    }
+
+    onSubmit(): void {
+        this.authService.signup({
+            email: this.signupForm.value.email,
+            password: this.signupForm.value.password
+        });
     }
 
     private createSignupForm(): void {
@@ -57,10 +65,6 @@ export class SingupComponent implements OnInit {
     private initializeSignupMaxDate(): void {
         this.maxDate = new Date();
         this.maxDate.setFullYear(this.maxDate.getFullYear() - MIN_REQUIRED_AGE);
-    }
-
-    onSubmit(): void {
-        console.log(this.signupForm);
     }
 
 }
