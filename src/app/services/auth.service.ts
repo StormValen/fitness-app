@@ -15,6 +15,7 @@ export class AuthService {
     signup(authData: AuthData): void {
         this.user = {
             email: authData.email,
+            // FIXME: -> userId must not be a random number.
             userId: Math.round(Math.random() * 1000).toString()
         }
         this.authSuccessRedirectTo('training');

@@ -1,28 +1,27 @@
 <section class="new-training" fxLayout fxLayoutAlign="center">
 
-  <mat-card fxFlex="600px" fxFlex.lt-sm="350px">
-    <mat-card-title>Card title</mat-card-title>
-    <mat-card-subtitle>Card subtitle</mat-card-subtitle>
+    <mat-card fxFlex="600px" fxFlex.lt-sm="350px">
+        <mat-card-title>New Training</mat-card-title>
+        <mat-card-subtitle>Select an exercise to start with</mat-card-subtitle>
 
-    <mat-card-content>
-      <mat-form-field>
-        <mat-label>Exercise type</mat-label>
-        <mat-select>
-          <mat-option value="burpees">Burpees</mat-option>
-          <mat-option value="t2b">Toes to Bar</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-card-content>
+        <mat-card-content>
+            <mat-form-field>
+                <mat-label>Exercise type</mat-label>
+                <mat-select>
+                    <mat-option 
+                        *ngFor="let exercise of availableExercises"    
+                        [value]="exercise.id">
+                        <span>{{ exercise.name }}</span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-card-content>
 
-    <mat-card-actions fxLayoutAlign="end">
-      <button
-        type="submit"
-        mat-raised-button
-        color="accent"
-        (click)="onClickStartTraining()">
-        OK! Let's do it
-      </button>
-    </mat-card-actions>
-  </mat-card>
-  
+        <mat-card-actions fxLayoutAlign="end">
+            <button type="submit" mat-raised-button color="accent" (click)="onClickStartTraining()">
+                OK! Let's do it
+            </button>
+        </mat-card-actions>
+    </mat-card>
+
 </section>
