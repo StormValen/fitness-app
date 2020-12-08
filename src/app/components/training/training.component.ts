@@ -1,13 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { TrainingService } from '../../services/training.service';
 
 @Component({
-  selector: 'app-training',
-  templateUrl: './training.component.html',
-  styleUrls: ['./training.component.scss']
+    selector: 'app-training',
+    templateUrl: './training.component.html',
+    styleUrls: ['./training.component.scss']
 })
-export class TrainingComponent {
-  ongoingTraining: boolean = false;
+export class TrainingComponent implements OnInit {
+    ongoingTraining: boolean = false;
 
-  constructor() { }
+    constructor(private trainingService: TrainingService) { }
+
+    ngOnInit(): void {
+        this.trainingService.ongoingExerciseChange
+            .subscribe(exercise => {
+                if (exercise !== null) {
+                    this.ongoingTraining = true;
+                }
+            })
+    }
 
 }

@@ -12,7 +12,7 @@ export class CurrentTrainingComponent implements OnInit {
     @Output() trainingExit = new EventEmitter<void>();
     progressValue: number = 0;
     progressCompleted: boolean = false;
-    progressInterval;
+    private progressInterval;
 
     constructor(
         private dialog: MatDialog
