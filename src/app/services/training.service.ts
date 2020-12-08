@@ -43,7 +43,11 @@ export class TrainingService {
         return this.availableExercises.slice();
     }
 
+    getOngoingExercise(): Exercise {
+        return { ...this.ongoingExercise };
+    }
+
     private emitOngoingExercise(): void {
-        this.ongoingExerciseChange.next(this.ongoingExercise);
+        this.ongoingExerciseChange.next({ ...this.ongoingExercise });
     }
 }
