@@ -25,7 +25,6 @@ export class CurrentTrainingComponent implements OnInit {
 
     startTraining(): void {
         const intervalStepDuration = this.trainingService.getOngoingExercise().duration * 1000 / 100;
-    
         this.progressInterval = setInterval(() => {
             this.progressValue++;
             if (this.progressValue >= 100)
@@ -35,17 +34,15 @@ export class CurrentTrainingComponent implements OnInit {
 
     stopTraining(): void {
         clearInterval(this.progressInterval);
-
         const dialogRef = this.dialog.open(StopTrainingComponent, {
             data: {
                 progressValue: this.progressValue
             }
         });
-
         dialogRef.afterClosed()
             .subscribe((result) => {
                 if (result) {
-                    // TODO: cancel exercise.
+                    this.trainingService.cancelExercise(this.progressValue);
                 } else {
                     this.startTraining();
                 }
@@ -55,6 +52,7 @@ export class CurrentTrainingComponent implements OnInit {
     private progressFinished(): void {
         clearInterval(this.progressInterval);
         this.progressCompleted = true;
+        this.trainingService.completeExercise();
     }
 
 }

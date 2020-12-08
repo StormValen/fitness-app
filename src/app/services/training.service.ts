@@ -5,6 +5,7 @@ import { Exercise } from "../models/exercise.model";
 export class TrainingService {
     ongoingExerciseChange = new Subject<Exercise>();
     private ongoingExercise: Exercise;
+    private passedExercises: Exercise[] = [];
     private availableExercises: Exercise[] = [
         { 
             id: 'crunches', 
@@ -36,18 +37,39 @@ export class TrainingService {
         this.ongoingExercise = this.availableExercises.find(
             exercise => exercise.id === selectedExerciseId
         )
-        this.emitOngoingExercise();
+        this.ongoingExerciseChange.next({ ...this.ongoingExercise });
+    }
+
+    completeExercise(): void {
+        this.passedExercises
+            .push({
+                ...this.ongoingExercise,
+                date: new Date(),
+                state: 'completed'
+            });
+        this.ongoingExercise = null;
+        this.ongoingExerciseChange.next(null);
+    }
+
+    cancelExercise(progress: number): void {
+        this.passedExercises
+            .push({
+                ...this.ongoingExercise,
+                duration: this.ongoingExercise.duration * (progress / 100),
+                calories: this.ongoingExercise.calories * (progress / 100),
+                date: new Date(),
+                state: 'cancelled'
+            });
+        this.ongoingExercise = null;
+        this.ongoingExerciseChange.next(null);
     }
 
     getAvailableExercises(): Exercise[] {
+        console.log('passes exercises ', this.passedExercises);
         return this.availableExercises.slice();
     }
 
     getOngoingExercise(): Exercise {
         return { ...this.ongoingExercise };
-    }
-
-    private emitOngoingExercise(): void {
-        this.ongoingExerciseChange.next({ ...this.ongoingExercise });
     }
 }
