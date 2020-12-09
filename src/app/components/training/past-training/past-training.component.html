@@ -1,3 +1,11 @@
+
+<div >
+    <mat-form-field fxFlex="100%" appearance="fill">
+        <mat-label>Filter</mat-label>
+        <input matInput type="text" (keyup)="doFilter($event.target.value)">
+    </mat-form-field>
+</div>
+
 <mat-table [dataSource]="dataSource" matSort>
 
     <ng-container matColumnDef="name">
@@ -7,12 +15,12 @@
 
     <ng-container matColumnDef="duration">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Duration</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.duration }} s</mat-cell>
+        <mat-cell *matCellDef="let element">{{ element.duration.toFixed(2) }} s</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="calories">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Calories</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.calories }} cal</mat-cell>
+        <mat-cell *matCellDef="let element">{{ element.calories.toFixed(2) }} cal</mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="date">
