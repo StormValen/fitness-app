@@ -65,8 +65,11 @@ export class TrainingService {
     }
 
     getAvailableExercises(): Exercise[] {
-        console.log('passes exercises ', this.passedExercises);
         return this.availableExercises.slice();
+    }
+
+    getPassedExercises(): Exercise[] {
+        return this.passedExercises.slice();
     }
 
     getOngoingExercise(): Exercise {
