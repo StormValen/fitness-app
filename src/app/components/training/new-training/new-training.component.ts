@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { Exercise } from 'src/app/models/exercise.model';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 import { TrainingService } from '../../../services/training.service';
 
@@ -11,14 +11,19 @@ import { TrainingService } from '../../../services/training.service';
     styleUrls: ['./new-training.component.scss']
 })
 export class NewTrainingComponent implements OnInit {
-    availableExercises: Exercise[] = [];
+    availableExercises: Observable<any>;
     newTrainingForm: FormGroup;
 
-    constructor(private trainingService: TrainingService) { }
+    constructor(
+        private trainingService: TrainingService,
+        private db: AngularFirestore
+    ) { }
 
     ngOnInit(): void {
-        this.availableExercises = this.trainingService.getAvailableExercises();
         this.createNewTrainingForm();
+        this.availableExercises = this.db.collection('availableExercises').valueChanges();
+
+        // this.availableExercises = this.trainingService.getAvailableExercises();
     }
 
     onSubmit() {

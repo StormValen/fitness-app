@@ -12,8 +12,8 @@
                     <mat-label>Exercise type</mat-label>
                     <mat-select formControlName="exercise">
                         <mat-option 
-                            *ngFor="let exercise of availableExercises"    
-                            [value]="exercise.id">
+                            *ngFor="let exercise of availableExercises | async"    
+                            [value]="exercise.name">
                             <span>{{ exercise.name }}</span>
                         </mat-option>
                     </mat-select>
