@@ -13,7 +13,7 @@
                     <mat-select formControlName="exercise">
                         <mat-option 
                             *ngFor="let exercise of availableExercises | async"    
-                            [value]="exercise.name">
+                            [value]="exercise.id">
                             <span>{{ exercise.name }}</span>
                         </mat-option>
                     </mat-select>
