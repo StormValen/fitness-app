@@ -1,37 +1,18 @@
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs';
 
 import { Exercise } from "../models/exercise.model";
 
+@Injectable()
 export class TrainingService {
     ongoingExerciseChange = new Subject<Exercise>();
+    availableExercisesChange = new Subject<Exercise[]>();
     private ongoingExercise: Exercise;
     private passedExercises: Exercise[] = [];
-    private availableExercises: Exercise[] = [
-        { 
-            id: 'crunches', 
-            name: 'Crunches', 
-            duration: 30, 
-            calories: 8 
-        },
-        { 
-            id: 'touch-toes', 
-            name: 'Touch Toes', 
-            duration: 180, 
-            calories: 15 
-        },
-        { 
-            id: 'side-lunges', 
-            name: 'Side Lunges', 
-            duration: 120, 
-            calories: 18 
-        },
-        { 
-            id: 'burpees', 
-            name: 'Burpees', 
-            duration: 60, 
-            calories: 8 
-        }
-    ]
+    private availableExercises: Exercise[] = [];
+
+    constructor(private db: AngularFirestore) {}
 
     startExercise(selectedExerciseId): void {
         this.ongoingExercise = this.availableExercises.find(
@@ -64,8 +45,21 @@ export class TrainingService {
         this.ongoingExerciseChange.next(null);
     }
 
-    getAvailableExercises(): Exercise[] {
-        return this.availableExercises.slice();
+    fetchAvailableExercises() {
+        this.db.collection('availableExercises')
+            .snapshotChanges()
+            .map(firestoreDocArray => {
+                return firestoreDocArray.map((firestoreDoc: any) => { // FIXME: type 'any' is not a good practice.
+                    return {
+                        id: firestoreDoc.payload.doc.id,
+                        ...firestoreDoc.payload.doc.data()
+                    }
+                })
+            })
+            .subscribe((exercises: Exercise[]) => {
+                this.availableExercises = exercises;
+                this.availableExercisesChange.next(this.availableExercises.slice());
+            })
     }
 
     getPassedExercises(): Exercise[] {

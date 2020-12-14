@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import 'rxjs/add/operator/map';
 
 import { Exercise } from '../../../models/exercise.model';
@@ -13,31 +12,20 @@ import { TrainingService } from '../../../services/training.service';
     templateUrl: './new-training.component.html',
     styleUrls: ['./new-training.component.scss']
 })
-export class NewTrainingComponent implements OnInit {
-    availableExercises: Observable<Exercise[]>;
+export class NewTrainingComponent implements OnInit, OnDestroy {
     newTrainingForm: FormGroup;
+    availableExercises: Exercise[];
+    private availableExercisesSubscription: Subscription;
 
-    constructor(
-        private trainingService: TrainingService,
-        private db: AngularFirestore
-    ) { }
+    constructor(private trainingService: TrainingService) { }
 
     ngOnInit(): void {
         this.createNewTrainingForm();
-
-        this.availableExercises = this.db.collection('availableExercises')
-            .snapshotChanges()
-            .map(firestoreDocArray => {
-                return firestoreDocArray.map((firestoreDoc: any) => { // FIXME: type 'any' is not a good practise.
-                    return {
-                        id: firestoreDoc.payload.doc.id,
-                        ...firestoreDoc.payload.doc.data()
-                    }
-                });
+        this.availableExercisesSubscription = this.trainingService.availableExercisesChange
+            .subscribe((availableExercises: Exercise[]) => {
+                this.availableExercises = availableExercises;
             });
-
-        // TODO: delte from here and delete service method.
-        // this.availableExercises = this.trainingService.getAvailableExercises();
+        this.trainingService.fetchAvailableExercises();
     }
 
     onSubmit() {
@@ -54,4 +42,9 @@ export class NewTrainingComponent implements OnInit {
             )
         })
     }
+
+    ngOnDestroy(): void {
+        this.availableExercisesSubscription.unsubscribe();
+    }
+    
 }
