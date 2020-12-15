@@ -15,9 +15,9 @@ export class AuthService {
     signup(authData: AuthData): void {
         this.user = {
             email: authData.email,
-            // FIXME: -> userId must not be a random number.
-            userId: Math.round(Math.random() * 1000).toString()
+            userId: Math.round(Math.random() * 1000).toString() // FIXME: -> userId must not be a random number.
         }
+        this.createUserLocalStorage(authData, this.user.userId);
         this.authSuccessRedirectTo('training');
     }
 
@@ -26,12 +26,18 @@ export class AuthService {
             email: authData.email,
             userId: Math.round(Math.random() * 1000).toString()
         }
+        this.createUserLocalStorage(authData, this.user.userId);
         this.authSuccessRedirectTo('training');
     }
 
     logout(): void {
         this.user = null;
-        this.authSuccessRedirectTo('/welcome');
+        this.deleteUserLocalStorage();
+        this.authSuccessRedirectTo('login');
+    }
+
+    getSession(): void {
+        this.readUserLocalStorage();
     }
 
     getUser(): User {
@@ -40,6 +46,30 @@ export class AuthService {
 
     isAuth(): boolean {
         return this.user != null;
+    }
+
+    private createUserLocalStorage(authData: AuthData, id: string): void {
+        localStorage.setItem('userEmail', authData.email);
+        localStorage.setItem('userPassword', authData.password);
+        localStorage.setItem('userId', id);
+    }
+
+    private readUserLocalStorage(): void {
+        if (!this.user && localStorage.getItem('userEmail') && localStorage.getItem('userId')) {
+            this.user = {
+                email: localStorage.getItem('userEmail'),
+                userId: localStorage.getItem('userId')
+            }
+            this.authSuccessRedirectTo('training');
+        }
+    }
+
+    private updateUserLocalStorage(): void {
+        // TODO:
+    }
+
+    private deleteUserLocalStorage(): void {
+        localStorage.clear();
     }
 
     private authSuccessRedirectTo(route: string): void {
