@@ -23,6 +23,7 @@ import { CurrentTrainingComponent } from './components/training/current-training
 import { StopTrainingComponent } from './components/training/current-training/stop-training/stop-training.component';
 
 import { AuthService } from './services/auth.service';
+import { AuthHelperService } from './services/auth-helper.service';
 import { TrainingService } from './services/training.service';
 
 import { environment } from '../environments/environment';
@@ -55,6 +56,7 @@ import { environment } from '../environments/environment';
     ],
     providers: [
         AuthService,
+        AuthHelperService,
         TrainingService
     ],
     bootstrap: [AppComponent],
