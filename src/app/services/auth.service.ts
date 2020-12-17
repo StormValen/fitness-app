@@ -18,10 +18,26 @@ export class AuthService {
         private trainingService: TrainingService
     ) { }
 
+    initAuthListener(): void {
+        this.auth.authState
+            .subscribe(user => {
+                if (user) {
+                    this.isAuthenticated = true;
+                    this.authChange.next(true);
+                    this.router.navigate(['/welcome']);
+                } else {
+                    this.isAuthenticated = false;
+                    this.authChange.next(false);
+                    this.router.navigate(['/login']);
+                    this.trainingService.cancelSubscriptions();
+                }
+            })
+    }
+
     signup(authData: AuthData): void {
         this.auth.createUserWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
-                this.authSuccessRedirectTo('training');
+                // TODO: show a success promt.
             })
             .catch((err) => {
                 // TODO: show up an error promt.
@@ -31,31 +47,19 @@ export class AuthService {
     login(authData: AuthData): void {
         this.auth.signInWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
-                console.log('RES', response);
-                this.authSuccessRedirectTo('training');
+                // TODO: show a success promt.
             })
             .catch((err) => {
-                console.log('ERR', err);
-                // TODO: show up an error promt
+                // TODO: show up an error promt.
             })
     }
 
     logout(): void {
         this.auth.signOut();
-        this.trainingService.cancelSubscriptions();
-        this.isAuthenticated = false;
-        this.authChange.next(false);
-        this.router.navigate(['/login']);
     }
 
     
     isAuth(): boolean {
         return this.isAuthenticated;
-    }
-
-    private authSuccessRedirectTo(route: string): void {
-        this.isAuthenticated = true;
-        this.authChange.next(true);
-        this.router.navigate(['/', route]);
     }
 }
