@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { Exercise } from "../models/exercise.model";
 
@@ -11,6 +11,7 @@ export class TrainingService {
     availableExercisesChange = new Subject<Exercise[]>();
     private ongoingExercise: Exercise;
     private availableExercises: Exercise[] = [];
+    private fbSubscriptions: Subscription[] = [];
 
     constructor(private db: AngularFirestore) {}
 
@@ -44,7 +45,7 @@ export class TrainingService {
     }
 
     fetchAvailableExercises() {
-        this.db.collection('availableExercises')
+        this.fbSubscriptions.push(this.db.collection('availableExercises')
             .snapshotChanges()
             .map(firestoreDocArray => {
                 return firestoreDocArray.map((firestoreDoc: any) => { // FIXME: type 'any' is not a good practice.
@@ -57,22 +58,26 @@ export class TrainingService {
             .subscribe((exercises: Exercise[]) => {
                 this.availableExercises = exercises;
                 this.availableExercisesChange.next(this.availableExercises.slice());
-            })
+            }));
     }
 
     fetchPassedExercises(): void {
-        this.db.collection('passedExercises').valueChanges()
+        this.fbSubscriptions.push(this.db.collection('passedExercises')
+            .valueChanges()
             .subscribe((exercises: Exercise[]) => {
                 this.passedExercisesChange.next(exercises);
-            });
+            }));
     }
 
     getOngoingExercise(): Exercise {
         return { ...this.ongoingExercise };
     }
 
+    cancelSubscriptions(): void {
+        this.fbSubscriptions.forEach(sub => sub.unsubscribe());
+    }
+
     private addPassedExerciseToDatabase(exercise: Exercise) {
-        console.log('passedExercise', exercise);
         this.db.collection('passedExercises').add(exercise);
     }
 }
