@@ -8,14 +8,14 @@
             <li *ngIf="isAuth">
                 <a routerLink="/training">Training</a>
             </li>
+            <li *ngIf="isAuth">
+                <a routerLink="/" (click)="onClickLogout()">Logout</a>
+            </li>
             <li *ngIf="!isAuth">
                 <a routerLink="/login">Login</a>
             </li>
             <li *ngIf="!isAuth">
                 <a routerLink="/signup">Sign Up</a>
-            </li>
-            <li *ngIf="isAuth">
-                <a routerLink="/" (click)="onClickLogout()">Logout</a>
             </li>
         </ul>
     </div>

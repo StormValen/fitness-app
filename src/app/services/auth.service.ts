@@ -1,64 +1,57 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { AuthData } from "../models/auth-data.model";
 import { User } from "../models/user.model";
 
-import { AuthHelperService } from './auth-helper.service';
-
 @Injectable()
 export class AuthService {
     authChange = new Subject<boolean>();
-    private user: User;
+    private isAuthenticated: boolean;
 
     constructor(
         private router: Router,
-        private authHelper: AuthHelperService,
+        private auth: AngularFireAuth
     ) { }
 
     signup(authData: AuthData): void {
-        this.user = {
-            email: authData.email,
-            userId: Math.round(Math.random() * 1000).toString() // FIXME: -> userId must not be a random number.
-        }
-
-        this.authHelper.createUserLocalStorage(authData.email, this.user.userId); // TODO: delete when not needed
-        this.authSuccessRedirectTo('training');
+        this.auth.createUserWithEmailAndPassword(authData.email, authData.password)
+            .then((response) => {
+                this.authSuccessRedirectTo('training');
+            })
+            .catch((err) => {
+                // TODO: show up an error promt.
+            })
     }
 
     login(authData: AuthData): void {
-        this.user = {
-            email: authData.email,
-            userId: Math.round(Math.random() * 1000).toString()
-        }
-        this.authHelper.createUserLocalStorage(authData.email, this.user.userId); // TODO: delete when not needed
-        this.authSuccessRedirectTo('training');
+        this.auth.signInWithEmailAndPassword(authData.email, authData.password)
+            .then((response) => {
+                console.log('RES', response);
+                this.authSuccessRedirectTo('training');
+            })
+            .catch((err) => {
+                console.log('ERR', err);
+                // TODO: show up an error promt
+            })
     }
 
     logout(): void {
-        this.user = null;
-        this.authHelper.deleteUserLocalStorage(); // TODO: delete when not needed
-        this.authSuccessRedirectTo('login');
+        this.isAuthenticated = false;
+        this.authChange.next(false);
+        this.router.navigate(['/login']);
     }
 
-    getSession(): void {
-        this.user = this.authHelper.readUserLocalStorage(); // TODO: delete when not needed
-        if (this.user) {
-            this.authSuccessRedirectTo('training');
-        }
-    }
-
-    getUser(): User {
-        return { ...this.user };
-    }
-
+    
     isAuth(): boolean {
-        return this.user != null;
+        return this.isAuthenticated;
     }
 
     private authSuccessRedirectTo(route: string): void {
-        this.authChange.next(this.user != null);
+        this.isAuthenticated = true;
+        this.authChange.next(true);
         this.router.navigate(['/', route]);
     }
 }
