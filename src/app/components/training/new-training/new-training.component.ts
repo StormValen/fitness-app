@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import 'rxjs/add/operator/map';
+import { UIService } from 'src/app/services/ui.service';
 
 import { Exercise } from '../../../models/exercise.model';
 
@@ -14,18 +15,30 @@ import { TrainingService } from '../../../services/training.service';
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
     newTrainingForm: FormGroup;
+    loading: boolean = false;
     availableExercises: Exercise[];
-    private availableExercisesSubscription: Subscription;
+    private subscriptions: Subscription[] = [];
 
-    constructor(private trainingService: TrainingService) { }
+    constructor(
+        private trainingService: TrainingService,
+        private uiService: UIService
+    ) { }
 
     ngOnInit(): void {
         this.createNewTrainingForm();
-        this.availableExercisesSubscription = this.trainingService.availableExercisesChange
+
+        this.subscriptions.push(this.trainingService.availableExercisesChange
             .subscribe((availableExercises: Exercise[]) => {
                 this.availableExercises = availableExercises;
-            });
+            }));
+
+        this.subscriptions.push(this.uiService.loadingStateChanged
+            .subscribe(loading => {
+                this.loading = loading;
+            }))
         this.trainingService.fetchAvailableExercises();
+
+            
     }
 
     onSubmit() {
@@ -44,7 +57,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.availableExercisesSubscription.unsubscribe();
+        this.subscriptions.forEach(sub => sub.unsubscribe());
     }
     
 }

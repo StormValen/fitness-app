@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject, Subscription } from 'rxjs';
 
 import { Exercise } from "../models/exercise.model";
+import { UIService } from './ui.service';
 
 @Injectable()
 export class TrainingService {
@@ -13,7 +14,10 @@ export class TrainingService {
     private availableExercises: Exercise[] = [];
     private fbSubscriptions: Subscription[] = [];
 
-    constructor(private db: AngularFirestore) {}
+    constructor(
+        private db: AngularFirestore,
+        private uiService: UIService
+    ) {}
 
     startExercise(selectedExerciseId): void {
         this.ongoingExercise = this.availableExercises.find(
@@ -45,6 +49,7 @@ export class TrainingService {
     }
 
     fetchAvailableExercises() {
+        this.uiService.loadingStateChanged.next(true);
         this.fbSubscriptions.push(this.db.collection('availableExercises')
             .snapshotChanges()
             .map(firestoreDocArray => {
@@ -58,14 +63,17 @@ export class TrainingService {
             .subscribe((exercises: Exercise[]) => {
                 this.availableExercises = exercises;
                 this.availableExercisesChange.next(this.availableExercises.slice());
+                this.uiService.loadingStateChanged.next(false);
             }));
     }
 
     fetchPassedExercises(): void {
+        this.uiService.loadingStateChanged.next(true);
         this.fbSubscriptions.push(this.db.collection('passedExercises')
             .valueChanges()
             .subscribe((exercises: Exercise[]) => {
                 this.passedExercisesChange.next(exercises);
+                this.uiService.loadingStateChanged.next(false);
             }));
     }
 
