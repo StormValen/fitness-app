@@ -25,6 +25,7 @@ import { StopTrainingComponent } from './components/training/current-training/st
 
 import { AuthService } from './services/auth.service';
 import { TrainingService } from './services/training.service';
+import { UIService } from './services/ui.service';
 
 import { environment } from '../environments/environment';
 
@@ -57,7 +58,8 @@ import { environment } from '../environments/environment';
     ],
     providers: [
         AuthService,
-        TrainingService
+        TrainingService,
+        UIService
     ],
     bootstrap: [AppComponent],
     entryComponents: [
