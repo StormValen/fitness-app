@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { 
-    FormControl, 
-    FormGroup,
-    Validators 
-} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup,Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+
 import { AuthService } from '../../../services/auth.service';
+import { UIService } from 'src/app/services/ui.service';
 
 const MIN_REQUIRED_AGE = 18;
 
@@ -13,15 +12,24 @@ const MIN_REQUIRED_AGE = 18;
     templateUrl: './singup.component.html',
     styleUrls: ['./singup.component.scss']
 })
-export class SingupComponent implements OnInit {
+export class SingupComponent implements OnInit, OnDestroy {
     signupForm: FormGroup;
     maxDate: Date;
+    loading: boolean = false;
+    private loadingSubs: Subscription;
 
-    constructor(private authService: AuthService) { }
+    constructor(
+        private authService: AuthService,
+        private uiService: UIService
+    ) { }
 
     ngOnInit(): void {
         this.createSignupForm();
         this.initializeSignupMaxDate();
+        this.loadingSubs = this.uiService.loadingStateChanged
+            .subscribe(loading => {
+                this.loading = loading;
+            })
     }
 
     onSubmit(): void {
@@ -65,6 +73,10 @@ export class SingupComponent implements OnInit {
     private initializeSignupMaxDate(): void {
         this.maxDate = new Date();
         this.maxDate.setFullYear(this.maxDate.getFullYear() - MIN_REQUIRED_AGE);
+    }
+
+    ngOnDestroy(): void {
+        this.loadingSubs.unsubscribe();
     }
 
 }

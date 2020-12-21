@@ -58,11 +58,13 @@
             <a href="https://en.wikipedia.org/wiki/Terms_of_service">terms and conditions</a>
         </mat-checkbox>
         <button
+            *ngIf="!loading"
             type="submit"
             mat-raised-button color="primary"
             [disabled]="signupForm.invalid">
             <span>Signup</span>
         </button>
+        <mat-spinner *ngIf="loading" diameter="37.3"></mat-spinner>
         <div>
             <span>You already have an account ? </span>
             <a routerLink="/login">Login</a>
