@@ -26,7 +26,7 @@ export class SingupComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.createSignupForm();
         this.initializeSignupMaxDate();
-        this.loadingSubs = this.uiService.loadingStateChanged
+        this.loadingSubs = this.uiService.loadingSignup
             .subscribe(loading => {
                 this.loading = loading;
             })

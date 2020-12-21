@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.createLoginForm();
-        this.loadingSubs = this.uiService.loadingStateChanged
+        this.loadingSubs = this.uiService.loadingLogin
             .subscribe(loading => {
                 this.loading = loading;
             })

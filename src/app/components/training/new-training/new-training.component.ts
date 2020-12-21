@@ -32,7 +32,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
                 this.availableExercises = availableExercises;
             }));
 
-        this.subscriptions.push(this.uiService.loadingStateChanged
+        this.subscriptions.push(this.uiService.loadingExercisesType
             .subscribe(loading => {
                 this.loading = loading;
             }))

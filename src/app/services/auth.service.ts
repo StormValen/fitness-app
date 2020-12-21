@@ -39,10 +39,10 @@ export class AuthService {
     }
 
     signup(authData: AuthData): void {
-        this.uiService.loadingStateChanged.next(true);
+        this.uiService.loadingSignup.next(true);
         this.auth.createUserWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
-                this.uiService.loadingStateChanged.next(false);
+                this.uiService.loadingSignup.next(false);
                 this.snackbar.open('Signed successfully!', null, {
                     duration: 3000,
                     horizontalPosition: 'right',
@@ -50,7 +50,7 @@ export class AuthService {
                 });
             })
             .catch((err) => {
-                this.uiService.loadingStateChanged.next(false);
+                this.uiService.loadingSignup.next(false);
                 this.snackbar.open(err.message, 'Dismiss', {
                     horizontalPosition: 'right',
                     verticalPosition: 'top'
@@ -59,10 +59,10 @@ export class AuthService {
     }
 
     login(authData: AuthData): void {
-        this.uiService.loadingStateChanged.next(true);
+        this.uiService.loadingLogin.next(true);
         this.auth.signInWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
-                this.uiService.loadingStateChanged.next(false);
+                this.uiService.loadingLogin.next(false);
                 this.snackbar.open('Logged successfully!', null, {
                     duration: 3000,
                     horizontalPosition: 'right',
@@ -70,7 +70,7 @@ export class AuthService {
                 });
             })
             .catch((err) => {
-                this.uiService.loadingStateChanged.next(false);
+                this.uiService.loadingLogin.next(false);
                 this.snackbar.open(err.message, 'Dismiss', {
                     horizontalPosition: 'right',
                     verticalPosition: 'top'
