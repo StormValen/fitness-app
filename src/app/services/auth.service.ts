@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -18,8 +17,7 @@ export class AuthService {
         private router: Router,
         private auth: AngularFireAuth,
         private trainingService: TrainingService,
-        private uiService: UIService,
-        private snackbar: MatSnackBar
+        private uiService: UIService
     ) { }
 
     initAuthListener(): void {
@@ -43,18 +41,11 @@ export class AuthService {
         this.auth.createUserWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
                 this.uiService.loadingSignup.next(false);
-                this.snackbar.open('Signed successfully!', null, {
-                    duration: 3000,
-                    horizontalPosition: 'right',
-                    verticalPosition: 'top'
-                });
+                this.uiService.showSnackBar('Sign in successfull!', null, 1);
             })
             .catch((err) => {
                 this.uiService.loadingSignup.next(false);
-                this.snackbar.open(err.message, 'Dismiss', {
-                    horizontalPosition: 'right',
-                    verticalPosition: 'top'
-                });
+                this.uiService.showSnackBar(err.message, 'Dismiss');
             })
     }
 
@@ -63,18 +54,11 @@ export class AuthService {
         this.auth.signInWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
                 this.uiService.loadingLogin.next(false);
-                this.snackbar.open('Logged successfully!', null, {
-                    duration: 3000,
-                    horizontalPosition: 'right',
-                    verticalPosition: 'top'
-                });
+                this.uiService.showSnackBar('Log in successfull!', null, 1);
             })
             .catch((err) => {
                 this.uiService.loadingLogin.next(false);
-                this.snackbar.open(err.message, 'Dismiss', {
-                    horizontalPosition: 'right',
-                    verticalPosition: 'top'
-                });
+                this.uiService.showSnackBar(err.message, 'Dismiss');
             })
     }
 
