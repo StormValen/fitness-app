@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -15,7 +16,8 @@ export class AuthService {
     constructor(
         private router: Router,
         private auth: AngularFireAuth,
-        private trainingService: TrainingService
+        private trainingService: TrainingService,
+        private snackbar: MatSnackBar
     ) { }
 
     initAuthListener(): void {
@@ -37,20 +39,34 @@ export class AuthService {
     signup(authData: AuthData): void {
         this.auth.createUserWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
-                // TODO: show a success promt.
+                this.snackbar.open('Signed successfully!', null, {
+                    duration: 3000,
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top'
+                });
             })
             .catch((err) => {
-                // TODO: show up an error promt.
+                this.snackbar.open(err.message, 'Dismiss', {
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top'
+                });
             })
     }
 
     login(authData: AuthData): void {
         this.auth.signInWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
-                // TODO: show a success promt.
+                this.snackbar.open('Logged successfully!', null, {
+                    duration: 3000,
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top'
+                });
             })
             .catch((err) => {
-                // TODO: show up an error promt.
+                this.snackbar.open(err.message, 'Dismiss', {
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top'
+                });
             })
     }
 
