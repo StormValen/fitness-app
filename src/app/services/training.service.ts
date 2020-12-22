@@ -58,11 +58,14 @@ export class TrainingService {
                         id: firestoreDoc.payload.doc.id,
                         ...firestoreDoc.payload.doc.data()
                     }
-                })
+                });
             })
             .subscribe((exercises: Exercise[]) => {
                 this.availableExercises = exercises;
                 this.availableExercisesChange.next(this.availableExercises.slice());
+                this.uiService.loadingExercisesType.next(false);
+            }, err => {
+                this.uiService.showSnackBar('Error when fetching data', null);
                 this.uiService.loadingExercisesType.next(false);
             }));
     }

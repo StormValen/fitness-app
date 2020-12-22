@@ -36,13 +36,16 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
             .subscribe(loading => {
                 this.loading = loading;
             }))
-        this.trainingService.fetchAvailableExercises();
-
-            
+        
+        this.fetchAvailableExercises();
     }
 
     onSubmit() {
         this.trainingService.startExercise(this.newTrainingForm.controls.exercise.value);
+    }
+
+    fetchAvailableExercises(): void {
+        this.trainingService.fetchAvailableExercises();
     }
 
     private createNewTrainingForm(): void {
