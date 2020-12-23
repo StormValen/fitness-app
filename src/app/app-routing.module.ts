@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from './features/auth/guards/auth.guard';
 
-import { LoginComponent } from './components/auth/login/login.component';
-import { SingupComponent } from './components/auth/singup/singup.component';
-import { TrainingComponent } from './components/training/training.component';
-import { WelcomeComponent } from './components/welcome/welcome.component';
+import { WelcomeComponent } from './core/welcome/welcome.component';
+import { SingupComponent } from './features/auth/components/singup/singup.component';
+import { LoginComponent } from './features/auth/components/login/login.component';
+import { TrainingComponent } from './features/training/components/training/training.component';
 
 const routes: Routes = [
-    { path: '', component: WelcomeComponent },
+    { path: '', component: WelcomeComponent, canActivate: [AuthGuard] },
     { path: 'signup', component: SingupComponent },
     { path: 'login', component: LoginComponent },
     { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },

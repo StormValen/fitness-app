@@ -5,9 +5,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 
 import { TrainingService } from '../../../services/training.service';
+import { UIService } from '../../../../../shared/services/ui.service';
 
 import { Exercise } from '../../../models/exercise.model';
-import { UIService } from 'src/app/services/ui.service';
 
 @Component({
     selector: 'app-past-training',

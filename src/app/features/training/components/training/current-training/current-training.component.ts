@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { TrainingService } from 'src/app/services/training.service';
+
+import { TrainingService } from '../../../services/training.service';
 
 import { StopTrainingComponent } from './stop-training/stop-training.component';
 

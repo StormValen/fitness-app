@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { AuthService } from '../../../services/auth.service';
-import { UIService } from 'src/app/services/ui.service';
+import { AuthService } from '../../services/auth.service';
+import { UIService } from '../../../../shared/services/ui.service';
 
 const MIN_REQUIRED_AGE = 18;
 

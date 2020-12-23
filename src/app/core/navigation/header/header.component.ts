@@ -6,39 +6,37 @@ import {
     Output 
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 @Component({
-    selector: 'app-sidenav-list',
-    templateUrl: './sidenav-list.component.html',
-    styleUrls: ['./sidenav-list.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
-export class SidenavListComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
     @Output() toggleSidenav = new EventEmitter<void>();
     isAuth: boolean = false;
-    private authSubscription: Subscription;
+    private authSusbcription: Subscription;
 
     constructor(private authService: AuthService) { }
 
     ngOnInit(): void {
-        this.authSubscription = this.authService.authChange
+        this.authSusbcription = this.authService.authChange
             .subscribe(authStatus => {
                 this.isAuth = authStatus;
             })
     }
 
-    onClickSidenavItem(): void {
+    onClickMenu(): void {
         this.toggleSidenav.emit();
     }
 
     onClickLogout(): void {
         this.authService.logout();
-        this.onClickSidenavItem();
     }
 
     ngOnDestroy(): void {
-        this.authSubscription.unsubscribe();
+        this.authSusbcription.unsubscribe();
     }
 
 }

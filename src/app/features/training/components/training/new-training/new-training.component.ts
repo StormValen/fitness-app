@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import 'rxjs/add/operator/map';
-import { UIService } from 'src/app/services/ui.service';
-
-import { Exercise } from '../../../models/exercise.model';
 
 import { TrainingService } from '../../../services/training.service';
+import { UIService } from '../../../../../shared/services/ui.service';
+
+import { Exercise } from '../../../models/exercise.model';
 
 @Component({
     selector: 'app-new-training',

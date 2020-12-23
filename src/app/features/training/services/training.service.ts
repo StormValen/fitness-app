@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject, Subscription } from 'rxjs';
+import 'rxjs/add/operator/map';
+
+import { UIService } from '../../../shared/services/ui.service';
 
 import { Exercise } from "../models/exercise.model";
-import { UIService } from './ui.service';
 
 @Injectable()
 export class TrainingService {
