@@ -33,6 +33,9 @@ import { StopTrainingComponent } from './components/training/current-training/st
         CurrentTrainingComponent,
         NewTrainingComponent,
         PastTrainingComponent
+    ],
+    entryComponents: [
+        StopTrainingComponent
     ]
 })
 export class TrainingModule {}
