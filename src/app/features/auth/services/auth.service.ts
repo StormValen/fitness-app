@@ -24,9 +24,10 @@ export class AuthService {
         this.auth.authState
             .subscribe(user => {
                 if (user) {
+                    console.log('You!');
                     this.isAuthenticated = true;
                     this.authChange.next(true);
-                    this.router.navigate(['/welcome']);
+                    this.router.navigate(['/']);
                 } else {
                     this.isAuthenticated = false;
                     this.authChange.next(false);
