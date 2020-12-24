@@ -3,12 +3,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { SharedModule } from '../../shared/shared.module';
 
-import { SingupComponent } from './components/singup/singup.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
     declarations: [
-        SingupComponent,
+        SignupComponent,
         LoginComponent
     ],
     imports: [
@@ -16,7 +16,7 @@ import { LoginComponent } from './components/login/login.component';
         AngularFireAuthModule
     ],
     exports: [
-        SingupComponent,
+        SignupComponent,
         LoginComponent
     ]
 })

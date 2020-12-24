@@ -8,11 +8,11 @@ import { UIService } from '../../../../shared/services/ui.service';
 const MIN_REQUIRED_AGE = 18;
 
 @Component({
-    selector: 'app-singup',
-    templateUrl: './singup.component.html',
-    styleUrls: ['./singup.component.scss']
+    selector: 'app-signup',
+    templateUrl: './signup.component.html',
+    styleUrls: ['./signup.component.scss']
 })
-export class SingupComponent implements OnInit, OnDestroy {
+export class SignupComponent implements OnInit, OnDestroy {
     signupForm: FormGroup;
     maxDate: Date;
     loading: boolean = false;
