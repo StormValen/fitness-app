@@ -1,0 +1,74 @@
+<section>
+    <form
+        [formGroup]="signupForm"
+        (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxLayoutGap="10px">
+        <h1>Signup</h1>
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input
+                matInput
+                type="email"
+                formControlName="email">
+            <mat-error *ngIf="signupForm.controls.email.value?.length === 0">
+                <span>Field must not be empty </span>
+                <mat-icon>announcement</mat-icon>
+            </mat-error>
+            <mat-error *ngIf="signupForm.controls.email.value?.length != 0
+                        && !signupForm.controls.email.valid">
+                <span>Email is not valid </span>
+                <mat-icon>announcement</mat-icon>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input
+                matInput
+                type="password"
+                formControlName="password">
+            <mat-hint align="end">
+                <span>{{ signupForm.controls.password.value?.length }} / 8</span>
+            </mat-hint>
+            <mat-error *ngIf="signupForm.controls.password.value?.length < 8">
+                <span>Password must be 6 characters long </span>
+                <mat-icon>announcement</mat-icon>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Birthdate</mat-label>
+            <input
+                matInput
+                type="text"
+                formControlName="birthdate"
+                [matDatepicker]="datepicker"
+                [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker></mat-datepicker>
+            <mat-error *ngIf="signupForm.controls.birthdate.value?.length === 0">
+                <span>Field must not be empty </span>
+                <mat-icon>announcement</mat-icon>
+            </mat-error>
+        </mat-form-field>
+        <mat-checkbox
+            formControlName="agreeTerms"
+            color="primary">
+            <span>Agree </span>
+            <a href="https://en.wikipedia.org/wiki/Terms_of_service">terms and conditions</a>
+        </mat-checkbox>
+        <button
+            *ngIf="!loading"
+            type="submit"
+            mat-raised-button color="primary"
+            [disabled]="signupForm.invalid">
+            <span>Signup</span>
+        </button>
+        <mat-spinner *ngIf="loading" diameter="37.3"></mat-spinner>
+        <div>
+            <span>You already have an account ? </span>
+            <a routerLink="/login">Login</a>
+        </div>
+    </form>
+</section>
+

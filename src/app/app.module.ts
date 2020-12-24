@@ -1,67 +1,47 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFireModule } from '@angular/fire'
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 
 import { AppRoutingModule } from './app-routing.module';
-import { MaterialModule } from './material.module';
+import { AuthModule } from './features/auth/auth.module';
+import { TrainingModule } from './features/training/training.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/navigation/header/header.component';
-import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
-import { WelcomeComponent } from './components/welcome/welcome.component';
-import { LoginComponent } from './components/auth/login/login.component';
-import { SingupComponent } from './components/auth/singup/singup.component';
-import { TrainingComponent } from './components/training/training.component';
-import { NewTrainingComponent } from './components/training/new-training/new-training.component';
-import { PastTrainingComponent } from './components/training/past-training/past-training.component';
-import { CurrentTrainingComponent } from './components/training/current-training/current-training.component';
-import { StopTrainingComponent } from './components/training/current-training/stop-training/stop-training.component';
+import { HeaderComponent } from './core/navigation/header/header.component';
+import { SidenavListComponent } from './core/navigation/sidenav-list/sidenav-list.component';
+import { WelcomeComponent } from './core/welcome/welcome.component';
 
-import { AuthService } from './services/auth.service';
-import { TrainingService } from './services/training.service';
+import { UIService } from './shared/services/ui.service';
+import { AuthService } from './features/auth/services/auth.service';
+import { TrainingService } from './features/training/services/training.service';
 
 import { environment } from '../environments/environment';
 
 @NgModule({
     declarations: [
         AppComponent,
-        SingupComponent,
-        LoginComponent,
-        TrainingComponent,
-        CurrentTrainingComponent,
-        NewTrainingComponent,
-        PastTrainingComponent,
         WelcomeComponent,
         HeaderComponent,
-        SidenavListComponent,
-        StopTrainingComponent
+        SidenavListComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        MaterialModule,
         AppRoutingModule,
-        FlexLayoutModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule,
-        AngularFireAuthModule,
+        SharedModule,
+        AuthModule,
+        TrainingModule,
         AngularFireAnalyticsModule,
+        AngularFireModule.initializeApp(environment.firebase)
     ],
     providers: [
         AuthService,
-        TrainingService
+        TrainingService,
+        UIService
     ],
-    bootstrap: [AppComponent],
-    entryComponents: [
-        StopTrainingComponent
-    ]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
