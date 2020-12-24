@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 
 import { AppRoutingModule } from './app-routing.module';
-import { MaterialModule } from './material.module';
 import { AuthModule } from './features/auth/auth.module';
 import { TrainingModule } from './features/training/training.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/navigation/header/header.component';
@@ -32,15 +30,12 @@ import { environment } from '../environments/environment';
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MaterialModule,
-        FlexLayoutModule,
         AppRoutingModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFireAnalyticsModule,
+        SharedModule,
         AuthModule,
-        TrainingModule
+        TrainingModule,
+        AngularFireAnalyticsModule,
+        AngularFireModule.initializeApp(environment.firebase)
     ],
     providers: [
         AuthService,
