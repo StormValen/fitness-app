@@ -12,7 +12,10 @@ export class UIService {
     constructor(private snackBar: MatSnackBar) {}
 
     showSnackBar(message: string, action: string, duration?: number): void {
-        let config = { duration: duration * 1000};
-        this.snackBar.open(message, action, config);
+        this.snackBar.open(message, action, {
+          duration: duration * 1000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top'
+        });
     }
 }

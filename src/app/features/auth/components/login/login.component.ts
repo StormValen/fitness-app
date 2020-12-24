@@ -38,16 +38,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     private createLoginForm(): void {
         this.loginForm = new FormGroup({
             email: new FormControl(
-                '', 
+                '',
                 { validators: [
-                    Validators.email, 
+                    Validators.email,
                     Validators.required
                 ]}
             ),
             password: new FormControl(
-                '', 
+                '',
                 { validators: [
-                    Validators.minLength(8), 
+                    Validators.minLength(8),
                     Validators.required
                 ]}
             )
@@ -55,7 +55,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.loadingSubs.unsubscribe();
+        if (this.loadingSubs) {
+          this.loadingSubs.unsubscribe();
+        }
     }
 
 }

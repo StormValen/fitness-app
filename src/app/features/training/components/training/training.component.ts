@@ -26,7 +26,9 @@ export class TrainingComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.ongoingTrainingSubscription.unsubscribe();
+        if (this.ongoingTrainingSubscription) {
+          this.ongoingTrainingSubscription.unsubscribe();
+        }
     }
 
 }

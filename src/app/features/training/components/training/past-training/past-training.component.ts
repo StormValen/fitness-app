@@ -30,7 +30,7 @@ export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private trainingService: TrainingService,
-        private uiService: UIService 
+        private uiService: UIService
     ) { }
 
     ngOnInit(): void {
@@ -39,7 +39,7 @@ export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.dataSource.data = exercises;
             }));
 
-        
+
         this.subscriptions.push(this.uiService.loadginPassedExercises
             .subscribe(loading => {
                 this.loading = loading;
@@ -51,14 +51,16 @@ export class PastTrainingComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-    } 
-    
+    }
+
     doFilter(filter: string): void {
         this.dataSource.filter = filter.trim().toLowerCase();
     }
 
     ngOnDestroy(): void {
-        this.subscriptions.forEach(sub => sub.unsubscribe());
+        if (this.subscriptions.length > 0) {
+          this.subscriptions.forEach(sub => sub.unsubscribe());
+        }
     }
 
 }
