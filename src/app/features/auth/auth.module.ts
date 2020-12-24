@@ -14,10 +14,6 @@ import { LoginComponent } from './components/login/login.component';
     imports: [
         SharedModule,
         AngularFireAuthModule
-    ],
-    exports: [
-        SignupComponent,
-        LoginComponent
     ]
 })
 export class AuthModule {}
