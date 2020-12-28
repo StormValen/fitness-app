@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './features/auth/auth.module';
-import { TrainingModule } from './features/training/training.module';
+// import { TrainingModule } from './features/training/training.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
@@ -33,9 +34,11 @@ import { environment } from '../environments/environment';
         AppRoutingModule,
         SharedModule,
         AuthModule,
-        TrainingModule,
+        // TrainingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
         AngularFireAnalyticsModule,
-        AngularFireModule.initializeApp(environment.firebase)
+
     ],
     providers: [
         AuthService,
