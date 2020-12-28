@@ -10,7 +10,8 @@ const routes: Routes = [
     { path: '', component: WelcomeComponent, canActivate: [AuthGuard] },
     {
       path: 'training',
-      loadChildren: () => import('./features/training/training.module').then(m => m.TrainingModule)
+      loadChildren: () => import('./features/training/training.module').then(m => m.TrainingModule),
+      canLoad: [AuthGuard]
     },
     { path: '**', component: WelcomeComponent },
 ];
