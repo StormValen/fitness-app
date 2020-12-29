@@ -4,10 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './features/auth/auth.module';
-// import { TrainingModule } from './features/training/training.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
@@ -20,6 +20,7 @@ import { AuthService } from './features/auth/services/auth.service';
 import { TrainingService } from './features/training/services/training.service';
 
 import { environment } from '../environments/environment';
+import { appReducer } from './app.reducer'; 
 
 @NgModule({
     declarations: [
@@ -34,11 +35,10 @@ import { environment } from '../environments/environment';
         AppRoutingModule,
         SharedModule,
         AuthModule,
-        // TrainingModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule,
         AngularFireAnalyticsModule,
-
+        StoreModule.forRoot({ui: appReducer})
     ],
     providers: [
         AuthService,
