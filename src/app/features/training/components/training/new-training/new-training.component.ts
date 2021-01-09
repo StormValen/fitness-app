@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import { TrainingService } from '../../../services/training.service';
-import { UIService } from '../../../../../shared/services/ui.service';
 
 import { Exercise } from '../../../models/exercise.model';
+
+import * as fromRoot from '../../../../../app.reducer';
 
 @Component({
     selector: 'app-new-training',
@@ -14,27 +16,24 @@ import { Exercise } from '../../../models/exercise.model';
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
     newTrainingForm: FormGroup;
-    loading: boolean = false;
+    isLoading$: Observable<boolean>;
     availableExercises: Exercise[];
-    private subscriptions: Subscription[] = [];
+    private availableExercisesSubs: Subscription;
 
     constructor(
         private trainingService: TrainingService,
-        private uiService: UIService
+        private store: Store<fromRoot.State>
     ) { }
 
     ngOnInit(): void {
         this.createNewTrainingForm();
 
-        this.subscriptions.push(this.trainingService.availableExercisesChange
+        this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+
+        this.availableExercisesSubs = this.trainingService.availableExercisesChange
             .subscribe((availableExercises: Exercise[]) => {
                 this.availableExercises = availableExercises;
-            }));
-
-        this.subscriptions.push(this.uiService.loadingExercisesType
-            .subscribe(loading => {
-                this.loading = loading;
-            }))
+            });
 
         this.fetchAvailableExercises();
     }
@@ -59,8 +58,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.subscriptions.length > 0) {
-          this.subscriptions.forEach(sub => sub.unsubscribe());
+        if (this.availableExercisesSubs) {
+          this.availableExercisesSubs.unsubscribe();
         }
     }
 

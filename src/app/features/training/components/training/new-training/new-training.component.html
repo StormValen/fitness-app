@@ -9,7 +9,7 @@
             <mat-card-subtitle fxLayoutAlign="center">Select an exercise to start with</mat-card-subtitle>
         
             <mat-card-content fxLayout fxLayoutAlign="center">
-                <mat-form-field *ngIf="!loading">
+                <mat-form-field *ngIf="!( isLoading$ | async )">
                     <mat-label>Exercise type</mat-label>
                     <mat-select formControlName="exercise">
                         <mat-option 
@@ -19,7 +19,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-spinner *ngIf="loading" diameter="37.3"></mat-spinner>
+                <mat-spinner *ngIf="( isLoading$ | async )" diameter="37.3"></mat-spinner>
             </mat-card-content>
 
             <mat-card-actions fxLayoutAlign="center">
@@ -35,7 +35,7 @@
                     *ngIf="!availableExercises"
                     type="button"
                     mat-button
-                    [disabled]="loading"
+                    [disabled]="( isLoading$ | async )"
                     (click)="fetchAvailableExercises()">
                     Fetch exercises
                 </button>
