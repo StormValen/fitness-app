@@ -9,7 +9,8 @@ import { AuthData } from '../models/auth-data.model';
 import { TrainingService } from '../../training/services/training.service';
 import { UIService } from '../../../shared/services/ui.service';
 
-import * as fromApp from '../../../app.reducer';
+import * as fromRoot from '../../../app.reducer';
+import * as UI from '../../../shared/services/ui.actions';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,7 @@ export class AuthService {
         private auth: AngularFireAuth,
         private trainingService: TrainingService,
         private uiService: UIService,
-        private store: Store<{ui: fromApp.State}>
+        private store: Store<fromRoot.State>
     ) { }
 
     initAuthListener(): void {
@@ -41,27 +42,27 @@ export class AuthService {
     }
 
     signup(authData: AuthData): void {
-        this.store.dispatch({type: 'START_LOADING'});
+        this.store.dispatch(new UI.StartLoading());
         this.auth.createUserWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
-                this.store.dispatch({type: 'STOP_LOADING'});
+                this.store.dispatch(new UI.StopLoading());
                 this.uiService.showSnackBar('Sign in successfull!', null, 1);
             })
             .catch((err) => {
-                this.store.dispatch({type: 'STOP_LOADING'});
+                this.store.dispatch(new UI.StopLoading());
                 this.uiService.showSnackBar(err.message, 'Dismiss');
             })
     }
 
     login(authData: AuthData): void {
-        this.store.dispatch({type: 'START_LOADING'});
+        this.store.dispatch(new UI.StartLoading());
         this.auth.signInWithEmailAndPassword(authData.email, authData.password)
             .then((response) => {
-                this.store.dispatch({type: 'STOP_LOADING'});
+                this.store.dispatch(new UI.StopLoading());
                 this.uiService.showSnackBar('Log in successfull!', null, 1);
             })
             .catch((err) => {
-                this.store.dispatch({type: 'STOP_LOADING'});
+                this.store.dispatch(new UI.StopLoading());
                 this.uiService.showSnackBar(err.message, 'Dismiss');
             })
     }
