@@ -4,11 +4,6 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class UIService {
-    // TODO: Deprecated.
-    // loadingLogin = new Subject<boolean>();
-    // loadingSignup = new Subject<boolean>();
-    // loadingExercisesType = new Subject<boolean>();
-    // loadginPassedExercises = new Subject<boolean>();
 
     constructor(private snackBar: MatSnackBar) {}
 

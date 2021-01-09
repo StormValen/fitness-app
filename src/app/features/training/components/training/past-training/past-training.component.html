@@ -5,7 +5,7 @@
     </mat-form-field>
 </div>
 
-<mat-table [dataSource]="dataSource" matSort *ngIf="!loading">
+<mat-table [dataSource]="dataSource" matSort *ngIf="!( isLoading$ | async )">
     
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
@@ -38,7 +38,7 @@
 </mat-table>
 
 <div fxLayout="column" fxLayoutAlign="center center" class="loading-spinner">
-    <mat-spinner *ngIf="loading" diameter="37.3"></mat-spinner>
+    <mat-spinner *ngIf="( isLoading$ | async )" diameter="37.3"></mat-spinner>
 </div>
 
 <mat-paginator 
