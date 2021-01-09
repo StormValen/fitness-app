@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
-import { UIService } from '../../../../shared/services/ui.service';
+
+import * as fromRoot from '../../../../app.reducer';
 
 const MIN_REQUIRED_AGE = 18;
 
@@ -12,24 +14,20 @@ const MIN_REQUIRED_AGE = 18;
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class SignupComponent implements OnInit {
     signupForm: FormGroup;
     maxDate: Date;
-    loading: boolean = false;
-    private loadingSubs: Subscription;
+    isLoading$: Observable<boolean>;
 
     constructor(
         private authService: AuthService,
-        private uiService: UIService
+        private store: Store<fromRoot.State>
     ) { }
 
     ngOnInit(): void {
         this.createSignupForm();
         this.initializeSignupMaxDate();
-        this.loadingSubs = this.uiService.loadingSignup
-            .subscribe(loading => {
-                this.loading = loading;
-            })
+        this.isLoading$ = this.store.select(fromRoot.getIsLoading);
     }
 
     onSubmit(): void {
@@ -73,12 +71,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     private initializeSignupMaxDate(): void {
         this.maxDate = new Date();
         this.maxDate.setFullYear(this.maxDate.getFullYear() - MIN_REQUIRED_AGE);
-    }
-
-    ngOnDestroy(): void {
-        if (this.loadingSubs) {
-          this.loadingSubs.unsubscribe();
-        }
     }
 
 }
