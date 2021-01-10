@@ -9,22 +9,22 @@
             <mat-card-subtitle fxLayoutAlign="center">Select an exercise to start with</mat-card-subtitle>
         
             <mat-card-content fxLayout fxLayoutAlign="center">
-                <mat-form-field *ngIf="!( isLoading$ | async )">
+                <mat-form-field *ngIf="!(isLoading$ | async)">
                     <mat-label>Exercise type</mat-label>
                     <mat-select formControlName="exercise">
                         <mat-option 
-                            *ngFor="let exercise of availableExercises"    
+                            *ngFor="let exercise of availableExercises$ | async"    
                             [value]="exercise.id">
                             <span>{{ exercise.name }}</span>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-spinner *ngIf="( isLoading$ | async )" diameter="37.3"></mat-spinner>
+                <mat-spinner *ngIf="(isLoading$ | async)" diameter="37.3"></mat-spinner>
             </mat-card-content>
 
             <mat-card-actions fxLayoutAlign="center">
                 <button 
-                    *ngIf="availableExercises"
+                    *ngIf="(availableExercises$ | async)"
                     type="submit" 
                     mat-raised-button 
                     color="accent"
@@ -32,10 +32,10 @@
                     OK! Let's do it
                 </button>
                 <button
-                    *ngIf="!availableExercises"
+                    *ngIf="!(availableExercises$ | async)"
                     type="button"
                     mat-button
-                    [disabled]="( isLoading$ | async )"
+                    [disabled]="(isLoading$ | async)"
                     (click)="fetchAvailableExercises()">
                     Fetch exercises
                 </button>

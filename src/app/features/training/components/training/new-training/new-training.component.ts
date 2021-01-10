@@ -1,40 +1,36 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { TrainingService } from '../../../services/training.service';
-
 import { Exercise } from '../../../models/exercise.model';
 
 import * as fromRoot from '../../../../../app.reducer';
+import * as fromTraining from '../../../store/training.reducer';
+
 
 @Component({
     selector: 'app-new-training',
     templateUrl: './new-training.component.html',
     styleUrls: ['./new-training.component.scss']
 })
-export class NewTrainingComponent implements OnInit, OnDestroy {
+export class NewTrainingComponent implements OnInit {
     newTrainingForm: FormGroup;
     isLoading$: Observable<boolean>;
-    availableExercises: Exercise[];
-    private availableExercisesSubs: Subscription;
+    availableExercises$: Observable<Exercise[]>;
 
     constructor(
         private trainingService: TrainingService,
-        private store: Store<fromRoot.State>
+        private store: Store<fromTraining.State>
     ) { }
 
     ngOnInit(): void {
         this.createNewTrainingForm();
-
+        
         this.isLoading$ = this.store.select(fromRoot.getIsLoading);
-
-        this.availableExercisesSubs = this.trainingService.availableExercisesChange
-            .subscribe((availableExercises: Exercise[]) => {
-                this.availableExercises = availableExercises;
-            });
-
+        this.availableExercises$ = this.store.select(fromTraining.getAvailableExercises);
+        
         this.fetchAvailableExercises();
     }
 
@@ -55,12 +51,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
                 ]}
             )
         })
-    }
-
-    ngOnDestroy(): void {
-        if (this.availableExercisesSubs) {
-          this.availableExercisesSubs.unsubscribe();
-        }
     }
 
 }
