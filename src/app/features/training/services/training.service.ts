@@ -8,8 +8,9 @@ import { UIService } from '../../../shared/services/ui.service';
 
 import { Exercise } from "../models/exercise.model";
 
-import * as fromRoot from '../../../app.reducer';
+import * as fromTraining from '../store/training.reducer';
 import * as UI from '../../../shared/services/ui.actions';
+import * as Training from '../store/training.actions';
 
 @Injectable()
 export class TrainingService {
@@ -23,14 +24,15 @@ export class TrainingService {
     constructor(
         private db: AngularFirestore,
         private uiService: UIService,
-        private store: Store<fromRoot.State>
+        private store: Store<fromTraining.State>
     ) {}
 
     startExercise(selectedExerciseId): void {
-        this.ongoingExercise = this.availableExercises.find(
+        /* this.ongoingExercise = this.availableExercises.find(
             exercise => exercise.id === selectedExerciseId
-        )
-        this.ongoingExerciseChange.next({ ...this.ongoingExercise });
+        ) */
+        /* this.ongoingExerciseChange.next({ ...this.ongoingExercise }); */
+        this.store.dispatch(new Training.StartTraining(selectedExerciseId))
     }
 
     completeExercise(): void {
@@ -39,8 +41,9 @@ export class TrainingService {
                 date: new Date(),
                 state: 'completed'
             });
-        this.ongoingExercise = null;
-        this.ongoingExerciseChange.next(null);
+        /* this.ongoingExercise = null;
+        this.ongoingExerciseChange.next(null); */
+        this.store.dispatch(new Training.StopTraining());
     }
 
     cancelExercise(progress: number): void {
@@ -51,8 +54,9 @@ export class TrainingService {
                 date: new Date(),
                 state: 'cancelled'
             });
-        this.ongoingExercise = null;
-        this.ongoingExerciseChange.next(null);
+        /* this.ongoingExercise = null;
+        this.ongoingExerciseChange.next(null); */
+        this.store.dispatch(new Training.StopTraining());
     }
 
     fetchAvailableExercises() {
@@ -68,9 +72,10 @@ export class TrainingService {
                 });
             })
             .subscribe((exercises: Exercise[]) => {
-                this.availableExercises = exercises;
-                this.availableExercisesChange.next(this.availableExercises.slice());
+                /* this.availableExercises = exercises;
+                this.availableExercisesChange.next(this.availableExercises.slice()); */
                 this.store.dispatch(new UI.StopLoading());
+                this.store.dispatch(new Training.SetAvailableTrainings(exercises));
             }, err => {
                 this.uiService.showSnackBar('Error when fetching data', null);
                 this.store.dispatch(new UI.StopLoading());
@@ -82,7 +87,8 @@ export class TrainingService {
         this.fbSubscriptions.push(this.db.collection('passedExercises')
             .valueChanges()
             .subscribe((exercises: Exercise[]) => {
-                this.passedExercisesChange.next(exercises);
+                /* this.passedExercisesChange.next(exercises); */
+                this.store.dispatch(new Training.SetFinishedTrainings(exercises));
                 this.store.dispatch(new UI.StopLoading());
             }));
     }

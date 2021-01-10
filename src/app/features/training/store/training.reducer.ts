@@ -46,7 +46,7 @@ export function trainingReducer(state = initialState, action: TrainingAction) {
         case START_TRAINING:
             return {
                 ...state,
-                ongoingExercise: action.payload
+                ongoingExercise: { ...state.availableExercises.find(ex => ex.id === action.payload) }
             }
         case STOP_TRAINING:
             return {
