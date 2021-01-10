@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         private store: Store<fromRoot.State>
     ) {}
 
+    // The canActivate method can return a boolean or and observable that returns a boolean
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.store.select(fromRoot.getIsAuth).pipe(take(1));
     }
