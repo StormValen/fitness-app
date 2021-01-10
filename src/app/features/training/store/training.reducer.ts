@@ -1,5 +1,6 @@
-import { TrainingAction, SET_AVAILABLE_TRAININGS, SET_FINISHED_TRAININGS, START_TRAINING, STOP_TRAINING } from './training.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import { TrainingAction, SET_AVAILABLE_TRAININGS, SET_FINISHED_TRAININGS, START_TRAINING, STOP_TRAINING } from './training.actions';
 import { Exercise } from '../models/exercise.model';
 
 import * as fromRoot from '../../../app.reducer';
@@ -57,6 +58,11 @@ export function trainingReducer(state = initialState, action: TrainingAction) {
     }
 }
 
-export const getAvailableExercises = (state: TrainingState) => state.availableExercises;
-export const getPassedExercises = (state: TrainingState) => state.passedExercises;
-export const getOngoingExercise = (state: TrainingState) => state.ongoingExercise;
+/**
+ * The training identifier has to match the state slice id
+ * used in the module store's provider.
+ */
+export const getTrainingState = createFeatureSelector<TrainingState>('training');
+export const getAvailableExercises = createSelector(getTrainingState, (state: TrainingState) => state.availableExercises);
+export const getPassedExercises = createSelector(getTrainingState, (state: TrainingState) => state.passedExercises);
+export const getOngoingExercise = createSelector(getTrainingState, (state: TrainingState) => state.ongoingExercise);

@@ -11,15 +11,13 @@ export interface State {
 
 // A reducer per aplication wide state
 export const reducers: ActionReducerMap<State> = {
-    // A reducer per each state slice
-    ui: fromUI.uiReducer, 
+    ui: fromUI.uiReducer, // A reducer per each state slice
     auth: fromAuth.authReducer
 }
 
-// This gives acces to the store's auth slice.
-export const getUiState = createFeatureSelector<fromUI.State>('ui'); 
-// This gives access to the slice's property.
-export const getIsLoading = createSelector(getUiState, fromUI.getIsLoading); 
+
+export const getUiState = createFeatureSelector<fromUI.State>('ui'); // This gives acces to the store's auth slice.
+export const getIsLoading = createSelector(getUiState, fromUI.getIsLoading); // This gives access to the slice's property.
 
 export const getAuthState = createFeatureSelector<fromAuth.State>('auth');
 export const getIsAuth = createSelector(getAuthState, fromAuth.getIsAuth); 
